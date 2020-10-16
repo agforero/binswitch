@@ -8,7 +8,7 @@ def main():
     top.title("BSC text editor")
 
     # text field
-    uni = tkFont.Font(family="Space Mono")
+    uni = tkFont.Font(family="Courier")
     field = Text(top, height=20, font=uni)
     field.pack(side=TOP)
 
@@ -31,7 +31,6 @@ def main():
     charLabel.pack(side=RIGHT)
 
     top.mainloop()
-    return 0
 
 if __name__ == "__main__":
     main()

@@ -11,9 +11,6 @@ def main():
     currentAddress = ["0" for i in range(32)]
     currentVal = ["0" for i in range(32)]
 
-    # array of Buttons. values contained here are modified dynamically
-    allButtons = [Button(top, text="0") for i in range(32)]
-
     # left side: one checkbox, toggling address/value modes
     # middle: 4 rows of 8 checkboxes = 32 checkboxes, for entry
     # right: confirmation button, sorta like an Enter key
@@ -26,12 +23,13 @@ def main():
     masterRight.pack(side=RIGHT)
 
     # fill left side
-    modeButton = Button(masterLeft, text="address/value")
+    modeButton = Button(masterLeft, text="address/value", width=5)
     modeButton.place(in_=masterLeft, anchor="c", relx=0.5, rely=0.5)
 
     # fill middle
     # middle Frame will have four sub-Frames -- four rows of eight buttons.
     fourRows = [Frame(masterCenter) for i in range(4)]
+    allButtons = [] # empty for now
 
     # pack the rows
     for row in fourRows:
@@ -40,8 +38,7 @@ def main():
     # fill them with allButtons
     for i in range(4):
         for j in range(8):
-            
-            print((8*i) + j)
+            allButtons.append(Button(fourRows[i], text="0", width=5))
 
     top.mainloop()
 
