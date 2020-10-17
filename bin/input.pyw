@@ -30,7 +30,7 @@ def swapModes(BText, container, allButtons):
             b.txt.set(container.currentAAV[0][i]) # update buttons to be all address components
 
 def submit(container):
-    f = open("data.txt", "a")
+    f = open("../data/data.txt", "a")
     
     stringToWrite = ""
     for i in range(2):
@@ -57,12 +57,41 @@ class BinButton:
             container.currentAAV[1][self.idx] = 1 if (container.currentAAV[1][self.idx] == 0) else 0
             self.txt.set(container.currentAAV[1][self.idx])
 
+def binToStrInt(sequence):
+    s = [int(sequence[i]) for i in range(len(sequence))][::-1]
+    ret = 0
+    for i, n in enumerate(s):
+        ret += ((2**i) * n)
+    return str(ret)
+
+def saveData():
+    print("saving!")
+    f = open("../data/data.txt", "r")
+
+    allText = {}
+    for line in f.readlines():
+        data = line.split()
+        allText[int(binToStrInt(data[0]))] = chr(int(binToStrInt(data[1])))
+
+    writeOut = ""
+    sortedKeys = list(allText.keys())
+    sortedKeys.sort()
+    for k in sortedKeys:
+        writeOut += allText[k]
+
+    o = open("output.txt", "w")
+    o.write(writeOut)
+
+    f.close()
+    o.close()
+    
+
 def main():
     # initializing tkinter elements
     top = Tk()
     top.title("BSC input tool")
 
-    f = open("data.txt", "w")
+    f = open("../data/data.txt", "w")
 
     startString = ""
     for i in range(2):
@@ -110,7 +139,12 @@ def main():
     enterText = StringVar()
     enterText.set("enter")
     enterButton = Button(masterRight, textvariable=enterText, width=9, command=(lambda: submit(container)))
-    enterButton.pack(side=BOTTOM)
+    enterButton.pack(side=TOP)
+
+    saveText = StringVar()
+    saveText.set("save")
+    saveButton = Button(masterRight, textvariable=saveText, width=9, command=(lambda: saveData()))
+    saveButton.pack(side=TOP)
 
     top.mainloop()
 

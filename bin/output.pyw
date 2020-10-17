@@ -12,6 +12,17 @@ def binToStrInt(sequence):
         ret += ((2**i) * n)
     return str(ret)
 
+def translateToDisplayChr(strInt):
+    val = int(strInt)
+    if val > 127: 
+        try: return chr(val)
+        except: return "error"
+    else:
+        f = open("../data/charDisplays.txt", "r")
+        match = f.readlines()[val].split()[1]
+        f.close()
+        return match
+
 class FieldText():
     def __init__(self):
         self.text = {}
@@ -31,7 +42,9 @@ class FieldText():
 
     def updateText(self, data):
         self.address = int(binToStrInt(data[0]))
-        self.char = chr(int(binToStrInt(data[1]))) if (int(binToStrInt(data[1])) < 127) else "OUT OF RANGE"
+
+        try: self.char = chr(int(binToStrInt(data[1]))) 
+        except: self.char = "?"
 
         self.text[self.address] = self.char
 
@@ -41,7 +54,7 @@ class OutputApp(tk.Tk):
         self.title("BSC text editor")
 
         # text field
-        self.uni = tkFont.Font(family="Courier", size=8)
+        self.uni = tkFont.Font(family="Courier", size=12)
         self.field = tk.Text(self, height=40, font=self.uni, width=64)
         self.field.pack(side=tk.TOP)
         self.fieldText = FieldText()
@@ -52,10 +65,10 @@ class OutputApp(tk.Tk):
 
         # declaring elements
         self.addressLabel = tk.Label(self.botDisplay, text="current address: ")
-        self.addressDisp = tk.Text(self.botDisplay, height=1, width=12)
+        self.addressDisp = tk.Text(self.botDisplay, height=1, width=25)
 
         self.charLabel = tk.Label(self.botDisplay, text="current char: ")
-        self.charDisp = tk.Text(self.botDisplay, height=1, width=12)
+        self.charDisp = tk.Text(self.botDisplay, height=1, width=25)
 
         # packing elements in order
         self.addressLabel.pack(side=tk.LEFT)
@@ -67,7 +80,7 @@ class OutputApp(tk.Tk):
         self.updateText()
 
     def updateText(self):
-        f = open("data.txt", "r")
+        f = open("../data/data.txt", "r")
 
         try: self.data = f.readlines()[-1].split()
         except: sys.exit(0)
@@ -82,7 +95,7 @@ class OutputApp(tk.Tk):
         self.charDisp.delete("1.0", tk.END)
 
         self.addressDisp.insert(tk.END, binToStrInt(self.data[0]))
-        self.charDisp.insert(tk.END, binToStrInt(self.data[1]))
+        self.charDisp.insert(tk.END, translateToDisplayChr(binToStrInt(self.data[1])))
 
         self.after(10, self.updateText)
 
