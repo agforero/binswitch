@@ -1,13 +1,13 @@
-0		  null
-1		  start of heading
-2		  start of text
-3		  end of text
-4		  end of transmission
-5		  enquiry
-6		  acknowledge
-7		  bell
-8		  backspace
-9		  horizontal tab
+0		null
+1		start of heading
+2		start of text
+3		end of text
+4		end of transmission
+5		enquiry
+6		acknowledge
+7		bell
+8		backspace
+9		horizontal tab
 10		NL line feed, new line
 11		vertical tab
 12		NP form feed, new page
